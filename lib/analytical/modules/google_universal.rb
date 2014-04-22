@@ -21,17 +21,20 @@ module Analytical
             ga('create', '#{options[:key]}', '#{options[:domain]}');
             ga('send', 'pageview');
 
-          </script>          
+          </script>
           HTML
           js
         end
+      end
+
+      def track(*args)
+        "ga('send', 'pageview', '#{args.first}');"
       end
 
       def event(name, *args)
         data = args.first || {}
         data = data[:value] if data.is_a?(Hash)
         data_string = !data.nil? ? ", #{data}" : ""
-        "_gaq.push(['_trackEvent', \"Event\", \"#{name}\"" + data_string + "]);"
         "ga('send', 'event', \"Event\", \"#{name}\"" + data_string + ");"
       end
     end
